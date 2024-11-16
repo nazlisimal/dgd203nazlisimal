@@ -1,0 +1,201 @@
+using System;
+
+namespace CarSimulation
+{
+    //Nazlı Şimal Kumcu 2305041049
+    //Fuel Type
+    public enum FuelType
+    {
+        Gasoline,
+        Diesel,
+        Electric,
+        Hybrid
+    }
+
+    // Drivetrain
+    public enum Drivetrain
+    {
+        FrontWheelDrive,
+        RearWheelDrive,
+        AllWheelDrive
+    }
+
+    // Tire Type
+    public enum TireType
+    {
+        Summer,
+        Winter
+    }
+
+    // Engines
+    public class Engine
+    {
+        public int Horsepower { get; private set; }
+        public double Displacement { get; private set; } 
+
+        public Engine(int horsepower, double displacement)
+        {
+            Horsepower = horsepower;
+            Displacement = displacement;
+        }
+
+        public void Start()
+        {
+            Console.WriteLine("Engine is starting...");
+        }
+
+        public void Stop()
+        {
+            Console.WriteLine("Engine is stopping...");
+        }
+    }
+
+    // Tank
+    public class FuelTank
+    {
+        public FuelType Fuel { get; private set; }
+        public double Capacity { get; private set; } 
+        public double CurrentLevel { get; private set; }
+
+        public FuelTank(FuelType fuel, double capacity)
+        {
+            Fuel = fuel;
+            Capacity = capacity;
+            CurrentLevel = capacity; 
+        }
+
+        public void Consume(double amount)
+        {
+            if (CurrentLevel - amount >= 0)
+            {
+                CurrentLevel -= amount;
+                Console.WriteLine($"Consumed {amount}L of fuel. Remaining: {CurrentLevel}L.");
+            }
+            else
+            {
+                Console.WriteLine("Not enough fuel!");
+            }
+        }
+    }
+
+    // Gear
+    public class Transmission
+    {
+        public string Type { get; private set; } 
+        public int Gears { get; private set; }
+
+        public Transmission(string type, int gears)
+        {
+            Type = type;
+            Gears = gears;
+        }
+
+        public void ShiftGear(int gear)
+        {
+            if (gear > 0 && gear <= Gears)
+            {
+                Console.WriteLine($"Shifted to gear {gear}.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid gear!");
+            }
+        }
+    }
+
+    // Tires
+    public class Tires
+    {
+        public TireType Type { get; private set; }
+        public string Size { get; private set; } 
+
+        public Tires(TireType type, string size)
+        {
+            Type = type;
+            Size = size;
+        }
+
+        public void ChangeTire(TireType newType)
+        {
+            Type = newType;
+            Console.WriteLine($"Tires have been changed to {Type} tires.");
+        }
+    }
+
+    // Chassis
+    public class Chassis
+    {
+        public string BodyType { get; private set; } 
+        public string Color { get; private set; }
+
+        public Chassis(string bodyType, string color)
+        {
+            BodyType = bodyType;
+            Color = color;
+        }
+
+        public void Paint(string newColor)
+        {
+            Color = newColor;
+            Console.WriteLine($"The car has been repainted to {Color}.");
+        }
+    }
+
+    // Car
+    public class Car
+    {
+        public string Model { get; private set; }
+        public Engine Engine { get; private set; }
+        public FuelTank FuelTank { get; private set; }
+        public Transmission Transmission { get; private set; }
+        public Chassis Chassis { get; private set; }
+        public Tires Tires { get; private set; }
+        public Drivetrain Drivetrain { get; private set; }
+
+        public Car(string model, Engine engine, FuelTank fuelTank, Transmission transmission, Chassis chassis, Tires tires, Drivetrain drivetrain)
+        {
+            Model = model;
+            Engine = engine;
+            FuelTank = fuelTank;
+            Transmission = transmission;
+            Chassis = chassis;
+            Tires = tires;
+            Drivetrain = drivetrain;
+        }
+
+        public void Drive()
+        {
+            Console.WriteLine($"Driving the {Model} with {Tires.Type} tires...");
+            Engine.Start();
+            FuelTank.Consume(5);  
+        }
+
+        public void Park()
+        {
+            Console.WriteLine($"Parking the {Model}...");
+            Engine.Stop();
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Examples
+            var engine = new Engine(130, 1.2);
+            var fuelTank = new FuelTank(FuelType.Gasoline, 44);
+            var transmission = new Transmission("Automatic", 8);
+            var chassis = new Chassis("SUV", "White");
+            var tires = new Tires(TireType.Summer, "215/55 R17");
+
+            // Creating a new car
+            var car = new Car("Opel Mokka", engine, fuelTank, transmission, chassis, tires, Drivetrain.FrontWheelDrive);
+
+            // Game
+            car.Drive();
+            car.Tires.ChangeTire(TireType.Winter);
+            car.Transmission.ShiftGear(3);
+            car.Park();
+        }
+    }
+}
