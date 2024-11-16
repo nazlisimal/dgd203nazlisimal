@@ -1,8 +1,8 @@
+    //Nazlı Şimal Kumcu 2305041049
 using System;
 
 namespace CarSimulation
 {
-    //Nazlı Şimal Kumcu 2305041049
     //Fuel Type
     public enum FuelType
     {
